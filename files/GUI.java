@@ -24,8 +24,9 @@ public class GUI extends JPanel {
     public GUI() throws IOException {
         enabledObjects = new CopyOnWriteArrayList<>();
         try{
-            File f = new File(/*"src/resources/Images/background.png"*/ "C:\\Users\\masst\\Desktop\\java\\poo\\Projeto\\src\\resources\\Images\\backgorund.png");
-            backGround = ImageIO.read(f);
+//            File f = new File(/*"src/resources/Images/background.png"*/ "C:\\Users\\masst\\Desktop\\java\\poo\\Projeto\\src\\resources\\Images\\backgorund.png");
+//            backGround = ImageIO.read(f);
+            backGround = ImageIO.read(getClass().getResource("/background.png"));
         }catch(IOException e) {throw new RuntimeException("Nao encontrou o ficheiro");}
 
         setBackground(Color.BLACK);
@@ -37,21 +38,23 @@ public class GUI extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(backGround, 0, 0, backGround.getWidth(), backGround.getHeight(), null);
 
-//        for(GameObject go : enabledObjects){
-//            ITransform t = go.transform();
-//              agr vem a parte onde iamos pegar os inputs aplicar e dps tratava-se
-//        }
-//        if(!enabledObjects.empty()){
-//          g2.setFont(new Font("Times New Roman", Font.LAYOUT_LEFT_TO_RIGHT, 20));
-//          g2.setColor(Color.white);
-//          g2.drawString("Score:", 0, 0);
-//        }
+        for(GameObject go : enabledObjects){
+            ITransform t = go.transform();
+            //agr vem a parte onde iamos pegar os inputs aplicar e dps tratava-se
+        }
+        if(!enabledObjects.isEmpty()){
+          g2.setFont(new Font("Times New Roman", Font.LAYOUT_LEFT_TO_RIGHT, 20));
+          g2.setColor(Color.white);
+          g2.drawString("Score:", 0, 0);
+        }
 
     }
 
     public void render(ArrayList<GameObject> enabled){
-        enabledObjects.clear();
-        enabledObjects.addAll(enabled);
+        if(enabled != null) {
+            enabledObjects.clear();
+            enabledObjects.addAll(enabled);
+        }
         repaint();
     }
 }

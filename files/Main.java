@@ -1,37 +1,89 @@
+
+
+
+
+
+
 package files;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main extends JPanel {
+    private GameEngine ge;
 
     public Main(){}
 
-    private void mainMenu(){
+    private void mainMenu() throws IOException {
         JFrame jf = new JFrame();
-        JPanel jp = new JPanel();
-        JLabel jl = new JLabel("Teste");
-        JButton start = new JButton("Start Game"), exit = new JButton("Exit Game");
-        jf.setSize(500, 500);
+        JPanel jp = new JPanel(){
+            private BufferedImage backGround = ImageIO.read(new File(
+                    "C:\\Users\\masst\\Desktop\\java\\poo\\Projeto\\src\\resources\\Images\\backgorund.png"
+            ));
+//            private BufferedImage backGround = ImageIO.read(Objects.requireNonNull(getClass().getResource("/resources/Images/background.png")));
 
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.drawImage(backGround, 0 , 0, backGround.getWidth(), backGround.getHeight(), null);
+            }
+        };
+        jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
+
+        JLabel jl = new JLabel("Meteor Run");
+        JButton single = new JButton("SinglePlayer"), exit = new JButton("Exit Game"), multi = new JButton("Multiplayer");
+        jf.setSize(600, 550);
+
+        jl.setAlignmentX(Component.CENTER_ALIGNMENT);
         jl.setFont(new Font("Pacifico", Font.BOLD, 50));
-        jl.setForeground(Color.CYAN);
+        jl.setForeground(Color.YELLOW);
+        jl.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
         jp.add(jl);
 
-        start.addActionListener(e -> new GameEngine(4).run());
-        jp.add(start);
+        //criação do butão de começo do mode de jogo single player
+        single.setAlignmentX(Component.CENTER_ALIGNMENT);
+        single.setMaximumSize(new Dimension(200, 60));
+        single.setBorder(BorderFactory.createEmptyBorder(30, 0, 30,0));
+        single.addActionListener(e -> startGame(0));
+        jp.add(single);
+        jp.add(Box.createRigidArea(new Dimension(0, 30)));
 
+        //criação do butão de mode de jogo multiplayer local
+        multi.setAlignmentX(Component.CENTER_ALIGNMENT);
+        multi.setMaximumSize(new Dimension(200, 60));
+        multi.setBorder(BorderFactory.createEmptyBorder(30, 0, 30,0));
+        multi.addActionListener(e -> startGame(1));
+        jp.add(multi);
+        jp.add(Box.createRigidArea(new Dimension(0, 30)));
+
+        //criação do butão de saida do jogo
+        exit.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exit.setMaximumSize(new Dimension(200, 60));
+        exit.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
         exit.addActionListener(e -> System.exit(0));
         jp.add(exit);
-        repaint();
+
+
         jf.add(jp);
         jf.setVisible(true);
     }
 
+    private void startGame(int mode){
+        if(mode == 0){
+            ge = new GameEngine(3);
+        }else{
+
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         Main m = new Main();
