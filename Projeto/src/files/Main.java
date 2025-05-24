@@ -1,39 +1,41 @@
 package files;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Main {
-    public static String capital(String s) {
-        if (s == null || s.isEmpty())
-            return s;
-        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+public class Main extends JPanel {
+
+    public Main(){}
+
+    private void mainMenu(){
+        JFrame jf = new JFrame();
+        JPanel jp = new JPanel();
+        JLabel jl = new JLabel("Teste");
+        JButton start = new JButton("Start Game"), exit = new JButton("Exit Game");
+        jf.setSize(500, 500);
+
+        jl.setFont(new Font("Pacifico", Font.BOLD, 50));
+        jl.setForeground(Color.CYAN);
+        jp.add(jl);
+
+        start.addActionListener(e -> new GameEngine(4).run());
+        jp.add(start);
+
+        exit.addActionListener(e -> System.exit(0));
+        jp.add(exit);
+        repaint();
+        jf.add(jp);
+        jf.setVisible(true);
     }
 
+
     public static void main(String[] args) throws IOException {
-//        Scanner sc = new Scanner(System.in);
-//        Locale.setDefault(Locale.US);
-//        int f = sc.nextInt(), n = sc.nextInt();
-//        sc.nextLine();
-//        GameEngine ge = new GameEngine(n, f);
-//        for(int i = 0; i < n; i++) {
-//            GameObject go;
-//            StringBuilder name = new StringBuilder();
-//            for(int j = 0; j < 4; j++){
-//                String s = sc.nextLine();
-//                if(s.isEmpty()) continue;
-//                name.append(s);
-//                name.append("\n");
-//            }
-//            go = new GameObject(name.toString());
-//            ge.add(go);
-//        }
-//        ge.run();
-//        sc.close();
-        GUI gui = new GUI();
-        gui.render();
+        Main m = new Main();
+        m.mainMenu();
     }
     /**
      * apenas um contexto para perceber algumas implementações

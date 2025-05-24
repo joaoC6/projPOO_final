@@ -11,16 +11,14 @@ import java.util.Set;
  */
 public class GameEngine{
     private HashMap<Integer, GameObject> objects;
-    private final int n, f;
+    private final int n;
 
     /**
      * @param n the ammount of game objects we are going to have in the engine
-     * @param f the ammount of frames it is going to handle
      */
-    public GameEngine(int n, int f){
-        assert(n >= 0 && f > 0);
+    public GameEngine(int n){
+        assert(n >= 0);
         this.n = n;
-        this.f = f;
         this.objects = new HashMap<>(n);
     }
 
@@ -58,24 +56,23 @@ public class GameEngine{
      * function that runs all the calculations f times, ex if  f = 4 the it runs the loop 4 times
      */
     public void run(){
-        Set<Integer> index;
-        for(int j = 0; j < f; j++)
-            objects.forEach( (i, go) -> go.transform());
-        index = objects.keySet();
-        for(int i: index){
-            GameObject go1 = objects.get(i);
-            GameObject[] colisions = new GameObject[objects.size()];
-            colisions[0] = go1;
-            int length = 1;
-            for(int j: index){
-                GameObject  go2 = objects.get(j);
-                if(i == j || go1 == null || go2 == null) continue;
-                if(go1.checkCollider(go2.collider(0)) && go2.checkCollider(go1.collider(1)))
-                    colisions[length++] = go2;
-            }
-
-            if(length > 1) System.out.println(printCollision(colisions, length));
-        }
+//        Set<Integer> index;
+//        for(int j = 0; j < f; j++)
+//            objects.forEach( (i, go) -> go.transform());
+//        index = objects.keySet();
+//        for(int i: index){
+//            GameObject go1 = objects.get(i);
+//            GameObject[] colisions = new GameObject[objects.size()];
+//            colisions[0] = go1;
+//            int length = 1;
+//            for(int j: index){
+//                GameObject  go2 = objects.get(j);
+//                if(i == j || go1 == null || go2 == null) continue;
+//                if(go1.checkCollider(go2.collider(0)) && go2.checkCollider(go1.collider(1)))
+//                    colisions[length++] = go2;
+//            }
+//
+//            if(length > 1) System.out.println(printCollision(colisions, length));
 
 //        objects.forEach((i, go1) ->{
 //            GameObject[] colissions = new GameObject[objects.size()];

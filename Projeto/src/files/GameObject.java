@@ -72,31 +72,22 @@ public class GameObject implements IGameObject{
      */
     @Override
     public ITransform transform() {
-//        for(int i = 0; i < aos.length; i++){
-//            getInput(i);
-//        }
-        this.t.move(new Ponto(vx, vy), vl);
-        this.c.update(t);
-        this.t.rotate(vr);
-        this.c.update(t);
-        this.t.scale(vs);
-        this.c.update(t);
-        this.fig = this.t.vert();
-        return t;
+//        this.t.move(new Ponto(vx, vy), vl);
+//        this.c.update(t);
+//        this.t.rotate(vr);
+//        this.c.update(t);
+//        this.t.scale(vs);
+//        this.c.update(t);
+//        this.fig = this.t.vert();
+        return this.t;
     }
 
     @Override
-    public ICollider collider() {
-        return c;
-    }
+    public ICollider collider() {return this.c;}
 
-    public Collider collider(int i) {
-        return this.c;
-    }
+    public Collider collider(int i) {return this.c;}
 
-    public boolean checkCollider(ICollider that){
-        return this.c.isColliding((Collider) that);
-    }
+    public boolean checkCollider(ICollider that){ return this.c.isColliding((Collider) that);}
 
     /**
      * Retorna representação textual do GameObject
