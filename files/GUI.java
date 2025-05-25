@@ -36,11 +36,11 @@ public class GUI extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(backGround, 0, 0, backGround.getWidth(), backGround.getHeight(), null);
-
         for(GameObject go : enabledObjects){
             Shape s = go.shape();
             Ponto p = go.transform().position();
-            g2.drawImage(s.img(), (int) p.getX(), (int) p.getY(),(int) (Main.windowWidth * 0.1), (int) (Main.windowHeigth * 0.1), null);
+            if(go.name().compareTo("parede") != 0)g2.drawImage(s.img(), (int) p.getX(), (int) p.getY(),(int) (Main.windowWidth * 0.1), (int) (Main.windowHeigth * 0.1), null);
+            else g2.drawImage(s.img(), (int) p.getX(), (int) p.getY(), 20, Main.windowHeigth*2, null);
         }
 
         g2.setFont(new Font("Times New Roman", Font.LAYOUT_LEFT_TO_RIGHT, 20));
@@ -51,12 +51,12 @@ public class GUI extends JPanel {
     }
 
     public void render(ArrayList<GameObject> enabled){
-        JFrame jf = new JFrame();
-        jf.setSize(Main.windowWidth, Main.windowHeigth);
+//        JFrame jf = new JFrame();
+//        jf.setSize(Main.windowWidth, Main.windowHeigth);
         enabledObjects.clear();
         enabledObjects.addAll(enabled);
         repaint();
-        jf.add(this);
-        jf.setVisible(true);
+//        jf.add(this);
+//        jf.setVisible(true);
     }
 }

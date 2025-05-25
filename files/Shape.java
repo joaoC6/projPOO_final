@@ -20,7 +20,7 @@ public class Shape {
         switch(name){
             case "asteroid":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/asteroid.png"));
+                    img = ImageIO.read(new File("src/resources/Images/asteroid.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -38,7 +38,7 @@ public class Shape {
 
             case "nave_inimiga":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/nave_inimiga.png"));
+                    img = ImageIO.read(new File("src/resources/Images/nave_inimiga.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -47,7 +47,7 @@ public class Shape {
 
             case "nave_boss":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/nave_boss.png"));
+                    img = ImageIO.read(new File("src/resources/Images/nave_boss.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -56,7 +56,7 @@ public class Shape {
 
             case "nave_mae":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/nave_mae.png"));
+                    img = ImageIO.read(new File("src/resources/Images/nave_mae.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -65,7 +65,7 @@ public class Shape {
 
             case "parede":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/parede.png"));
+                    img = ImageIO.read(new File("src/resources/Images/parede.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -74,7 +74,7 @@ public class Shape {
 
             case "shield":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/shield.png"));
+                    img = ImageIO.read(new File("src/resources/Images/shield.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -83,7 +83,7 @@ public class Shape {
 
             case "speed_misseis":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/speed_misseis.png"));
+                    img = ImageIO.read(new File("src/resources/Images/speed_misseis.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }
@@ -92,7 +92,7 @@ public class Shape {
 
             case "speed_nave":{
                 try{
-                    img = ImageIO.read(new File("/src/resources/Images/speed_nave.png"));
+                    img = ImageIO.read(new File("src/resources/Images/speed_nave.png"));
                 }catch (IOException e){
                     throw new RuntimeException();
                 }

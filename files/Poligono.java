@@ -123,7 +123,7 @@ public class Poligono {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Ponto p : vertices) {
-            sb.append(String.format("%.2f %.2f ", p.getX(), p.getY()));
+            sb.append(String.format("%f %f ", p.getX(), p.getY()));
         }
         return sb.toString().trim();
     }

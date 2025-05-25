@@ -1,7 +1,6 @@
 package files;
 
 import javax.imageio.ImageIO;
-import javax.print.DocFlavor;
 import javax.sound.sampled.*;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
@@ -9,15 +8,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class Main extends JPanel {
     private JFrame jf = new JFrame();
     private GameEngine ge;
-    private Clip starterClip;
+    private Clip starterClip, backgorundMusic;
     public final static int windowWidth = 600, windowHeigth = 550;
     public final static Ponto spawnPoint = new Ponto(200, 400);
 
@@ -74,13 +69,18 @@ public class Main extends JPanel {
 
         jf.add(jp);
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+            AudioInputStream startStream = AudioSystem.getAudioInputStream(
                     new File("src/resources/Sounds/starter_music.wav")
             );
+            AudioInputStream backgroundStream = AudioSystem.getAudioInputStream(
+                    new File("src/resources/Sounds/background_music.wav")
+            );
             starterClip = AudioSystem.getClip();
-            starterClip.open(audioInputStream);
+            starterClip.open(startStream);
             starterClip.loop(Clip.LOOP_CONTINUOUSLY);
             starterClip.start();
+            backgorundMusic = AudioSystem.getClip();
+            backgorundMusic.open(backgroundStream);
         } catch (Exception e) {
             System.err.println("Erro ao carregar starter_music: " + e.getMessage());
         }
@@ -89,30 +89,37 @@ public class Main extends JPanel {
     }
 
     private void startGame(int mode){
-        StringBuilder sb = new StringBuilder();
-        sb.append("parede\n0 0 1 0 0\n-2 0 2 0 2 %s -2 %s", Main.windowHeigth, Main.windowHeigth);
-        GameObject wall1 = new GameObject(sb.toString()), wall2 = wall1.shalowCopy();
-        jf.setVisible(false);
+        GameObject wall1 = new GameObject(String.format("parede\n0 0 1 0 0\n-30 0 30 0 30 %s -30 %s", Main.windowHeigth, Main.windowHeigth));
+        GameObject wall2 = new GameObject(String.format("parede\n0 0 2 0 0\n-0 0 30 0 30 %s -30 %s", Main.windowHeigth, Main.windowHeigth));
+        jf.getContentPane().removeAll();
         starterClip.stop();
+        backgorundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        backgorundMusic.start();
         if(mode == 0){
             String s = "nave\n0 0 1 0 0\n0 -2 -2 2 2 2";
             GameObject go = new GameObject(s);
-            ge = new GameEngine(3, go.hashCode());
+            ge = new GameEngine(3, go.hashCode(), 0);
             ge.add(go);
             ge.add(wall1);
             ge.add(wall2);
-            ge.run(0);
+            jf.setContentPane(ge.getGUI());
+            jf.revalidate();
+            jf.repaint();
+            ge.start();
         }else{
             String p1 = "nave\n0 0 1 0 0\n0 -2 -2 2 2 2";
             String p2 = "nave\n0 0 1 0 0\n0 -2 -2 2 2 2";
             GameObject go1 = new GameObject(p1), go2 = new GameObject(p2);
-            ge = new GameEngine(5, go1.hashCode());
+            ge = new GameEngine(5, go1.hashCode(), 1);
             ge.setHashcodePlayer2(go2.hashCode());
             ge.add(go1);
             ge.add(go2);
             ge.add(wall1);
             ge.add(wall2);
-            ge.run(1);
+            jf.setContentPane(ge.getGUI());
+            jf.revalidate();
+            jf.repaint();
+            ge.run();
         }
     }
 

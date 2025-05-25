@@ -101,6 +101,6 @@ public class Circulo {
      */
     @Override
     public String toString() {
-        return String.format("%s %.2f", centro, raio);
+        return String.format("%s %f", centro, raio);
     }
 }

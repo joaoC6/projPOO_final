@@ -1,8 +1,12 @@
 package files;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,22 +15,31 @@ import java.util.Set;
  * @version 01/04/2025
  * @inv none
  */
-public class GameEngine{
+public class GameEngine implements KeyListener, Runnable{
     private HashMap<Integer, GameObject> objects;
-    private final int n;
+    private final int n, mode;
     private int hashcodePlayer1, hashcodePlayer2;
     private GUI g;
+    private Behaviour p1, p2;
+    private final Set<Integer> keysPressed = new HashSet<>();
 
     /**
      * @param n the ammount of game objects we are going to have in the engine
      */
-    public GameEngine(int n, int hashcodePlayer) {
+    public GameEngine(int n, int hashcodePlayer, int mode) {
         assert(n >= 0);
         this.n = n;
         this.objects = new HashMap<>(n);
         this.g = new GUI();
         this.hashcodePlayer1 = hashcodePlayer;
         this.hashcodePlayer2 = 0;
+        this.mode = mode;
+
+    }
+
+    public void start(){
+        Thread gameThread = new Thread(this);
+        gameThread.start();
     }
 
     public void setHashcodePlayer2(int hashcodePlayer2){this.hashcodePlayer2 = hashcodePlayer2;}
@@ -53,34 +66,53 @@ public class GameEngine{
         return enabled;
     }
 
-    private void singlePlayer(){
+    private void singlePlayer() {
         Set<Integer> index;
         objects.forEach((i, go) -> {
             ITransform t;
             t = go.transform();
-            t.move(Main.spawnPoint, 0);
+            if (go.name().compareTo("nave") == 0) {
+                t.move(Main.spawnPoint, 0);
+                p1 = new Behaviour(go);
+            } else {
+                if (t.layer() == 2) t.move(new Ponto(Main.windowWidth - 30, -Main.windowHeigth / 2.0), -1);
+                else t.move(new Ponto(-10, -Main.windowHeigth / 2), 0); //serve para atualizar o colisor da parede 1
+            }
             go.setTranform((Transform) t);
         });
-        index = objects.keySet();
-        for(int i: index){
-            GameObject go1 = objects.get(i);
-            GameObject[] colisions = new GameObject[objects.size()];
-            colisions[0] = go1;
-            int length = 1;
-            for(int j: index){
-                GameObject  go2 = objects.get(j);
-                if(i == j || go1 == null || go2 == null) continue;
-                if(go1.checkCollider(go2.collider(0)) && go2.checkCollider(go1.collider(1)));
-
+        while(true) {
+            try {
+                Thread.sleep(16);
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
             }
+            objects.replace(hashcodePlayer1, p1.moveSet(keysPressed));
+            index = objects.keySet();
+            for (int i : index) {
+                GameObject go1 = objects.get(i);
+                GameObject[] colisions = new GameObject[objects.size()];
+                colisions[0] = go1;
+                int length = 1;
+                for (int j : index) {
+                    GameObject go2 = objects.get(j);
+                    if (i == j || go1 == null || go2 == null) continue;
+                    if (go1.checkCollider(go2.collider(0)) && go2.checkCollider(go1.collider(1))) ;
+
+                }
+            }
+            this.g.render(this.enabled());
         }
-        this.g.render(this.enabled());
     }
 
     /**
      * function that runs all the calculations
      */
-    public void run(int mode){
+    @Override
+    public void run(){
+        g.setFocusable(true);
+        g.requestFocusInWindow();
+        p1 = new Behaviour(objects.get(hashcodePlayer1));
+        g.addKeyListener(this);
         if(mode == 0){
             singlePlayer();
         }else if(mode == 1){
@@ -88,6 +120,22 @@ public class GameEngine{
         }
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //nao usado
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        keysPressed.add(e.getKeyCode());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        keysPressed.remove(e.getKeyCode());
+    }
+
+    public Container getGUI(){return g;}
 }
 
 

@@ -149,6 +149,11 @@ public class GameObject implements IGameObject{
                 break;
             }
 
+            case "parede":{
+                this.hp = -1;
+                break;
+            }
+
             default:{
                 break;
             }
