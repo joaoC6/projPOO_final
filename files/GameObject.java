@@ -47,10 +47,6 @@ public class GameObject implements IGameObject{
             this.c = new ColliderPoligono(fig);
             this.t = new Transform(tx, ty, layer, ori, sf, fig, this.c);
         }
-//        this.aos = new String[aos.length - 3];
-//        for(int i = 3, j = 0; i < aos.length; i++, j++){
-//            this.aos[j] = aos[i];
-//        }
         String[] l4 = aos[3].split(" ");
         this.vx = Double.parseDouble(l4[0]);
         this.vy = Double.parseDouble(l4[1]);
@@ -72,22 +68,11 @@ public class GameObject implements IGameObject{
      */
     @Override
     public ITransform transform() {
-//        this.t.move(new Ponto(vx, vy), vl);
-//        this.c.update(t);
-//        this.t.rotate(vr);
-//        this.c.update(t);
-//        this.t.scale(vs);
-//        this.c.update(t);
-//        this.fig = this.t.vert();
         return this.t;
     }
 
     @Override
     public ICollider collider() {return this.c;}
-
-    public Collider collider(int i) {return this.c;}
-
-    public boolean checkCollider(ICollider that){ return this.c.isColliding((Collider) that);}
 
     /**
      * Retorna representação textual do GameObject
@@ -102,12 +87,4 @@ public class GameObject implements IGameObject{
         return sb.toString();
     }
 
-    /**
-     * @return a shallow copy of the object, only difference is the memory location
-     */
-    public GameObject shalowCopy(){
-        String s = this.toString();
-        GameObject go = new GameObject(s);
-        return go;
-    }
 }

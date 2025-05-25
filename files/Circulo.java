@@ -61,20 +61,6 @@ public class Circulo {
     }
 
     /**
-     * Aplica a translação ao círculo, movendo o centro.
-     * @param dx deslocamento em x.
-     * @param dy deslocamento em y.
-     */
-    public void translacao(double dx, double dy) {
-        Ponto novoCentro = centro.translacaoPonto(dx, dy);
-        if (validaCirculo((int) novoCentro.getX(), (int) novoCentro.getY(), this.raio)) {
-            System.out.println("Circulo:vi");
-            System.exit(0);
-        }
-        this.centro = novoCentro;
-    }
-
-    /**
      * Retorna o raio do círculo.
      * @return O valor do raio.
      */
@@ -88,11 +74,6 @@ public class Circulo {
     public Ponto getCentro() {
         return centro;
     }
-
-    /**
-     * muda o valor do raio do circulo
-     */
-    public void setRaio(double raio) { this.raio = raio;}
 
     /**
      * Retorna uma representação textual do círculo, incluindo

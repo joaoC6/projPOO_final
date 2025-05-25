@@ -76,30 +76,6 @@ public class Transform extends GameObject implements ITransform {
         checkCentroid();
     }
 
-//    public void move(Ponto dPos, int dlayer) {
-//        ArrayList<Ponto> result = new ArrayList<>();
-//        if(vert.size() > 2) {
-//            for (Ponto p : this.vert) {
-//                Ponto res = new Ponto(p.getX() + dPos.getX(), p.getY() + dPos.getY());
-//                result.add(res);
-//            }
-//        }else{
-//            if (!vert.isEmpty()) {
-//                Ponto newCenter = new Ponto(vert.get(0).getX() + dPos.getX(), vert.get(0).getY() + dPos.getY());
-//                result.add(newCenter);
-//                result.add(vert.getLast());
-//            }
-//
-//        }
-//        vert = result;
-//        if(vert.size() == 2) vert.add(vert.getLast());
-//        this.x += dPos.getX();
-//        this.y += dPos.getY();
-//        this.layer += dlayer;
-//        c.update(this);
-//        checkCentroid();
-//    }
-
 
     public void rotate(double dTheta) {
         this.angle += dTheta;
