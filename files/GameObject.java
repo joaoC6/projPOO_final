@@ -13,8 +13,10 @@ public class GameObject implements IGameObject{
     protected String name;
     protected double vx, vy, vr, vs;
     protected int vl;
+    private int hp;
     private Transform t;
     private Collider c;
+    private Shape s;
 
     protected GameObject(){}
 
@@ -57,6 +59,8 @@ public class GameObject implements IGameObject{
 //        this.vl = Integer.parseInt(l4[2]);
 //        this.vr = Double.parseDouble(l4[3]);
 //        this.vs = Double.parseDouble(l4[4]);
+        liveManager();
+        this.s = new Shape(this.name);
     }
 
     /**
@@ -84,6 +88,8 @@ public class GameObject implements IGameObject{
 
     @Override
     public ICollider collider() {return this.c;}
+
+    public Shape shape(){return this.s;}
 
     public Collider collider(int i) {return this.c;}
 
@@ -114,5 +120,38 @@ public class GameObject implements IGameObject{
     public void setTranform(Transform t) {
         this.t = t;
         this.c.update(t);
+    }
+
+    private void liveManager(){
+        switch(this.name){
+            case "nave":{
+                this.hp = 300;
+                break;
+            }
+
+            case "nave_inimiga":{
+                this.hp = 150;
+                break;
+            }
+
+            case "nave_boss":{
+                this.hp = 600;
+                break;
+            }
+
+            case "asteroid":{
+                this.hp = 50;
+                break;
+            }
+
+            case "shield":{
+                this.hp = 100;
+                break;
+            }
+
+            default:{
+                break;
+            }
+        }
     }
 }

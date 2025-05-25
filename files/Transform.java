@@ -189,7 +189,7 @@ public class Transform extends GameObject implements ITransform {
     public String toString() {
         c.update(this);
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("(%.2f,%.2f) %d %.2f %.2f", x, y, layer, angle, scale));
+        sb.append(String.format("%.2f %.2f %d %.2f %.2f", x, y, layer, angle, scale));
         sb.append("\n");
         sb.append(c);
         return sb.toString();
