@@ -41,6 +41,20 @@ public class Segmento {
         return pB;
     }
 
+    /**
+     * Verifica se três pontos são colineares.
+     * @param a Primeiro ponto.
+     * @param b Segundo ponto.
+     * @param c Terceiro ponto.
+     * @return true se os pontos forem colineares, false caso contrário.
+     */
+    public static boolean saoColineares(Ponto a, Ponto b, Ponto c) {
+        double area = a.getX() * (b.getY() - c.getY()) +
+                b.getX() * (c.getY() - a.getY()) +
+                c.getX() * (a.getY() - b.getY());
+        return Math.abs(area) < 1e-9;
+    }
+
 
     /**
      * Verifica se dois segmentos se intersectam.

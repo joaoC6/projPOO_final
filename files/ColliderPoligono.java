@@ -51,6 +51,28 @@ public class ColliderPoligono extends Collider{
     }
 
     public boolean isColliding(ColliderCirculo that) {
+//        Ponto centro = that.getC().getCentro();
+//        double raio = that.getC().getRaio();
+//        Poligono poligono = this.p;
+//        if (pointInPolygon(centro, this.p)) return true;
+//        List<Ponto> verticesPoligono = poligono.vertices;
+//        int n = vert.size();
+//        for (int i = 0; i < n; i++) {
+//            Ponto a = verticesPoligono.get(i);
+//            Ponto b = verticesPoligono.get((i + 1) % n);
+//            double distancia = distancePointSegment(centro, a, b);
+//            if (distancia <= raio) {
+//                return true;
+//            }
+//        }
+//        for (Ponto vertice : verticesPoligono) {
+//            double dx = vertice.getX() - centro.getX();
+//            double dy = vertice.getY() - centro.getY();
+//            double distanciaSq = dx * dx + dy * dy;
+//            if (distanciaSq <= raio * raio) {
+//                return true;
+//            }
+//        }
 
         return Colisões.colideCirculoPoligono(that.getC(), this.p);
     }
@@ -112,6 +134,38 @@ public class ColliderPoligono extends Collider{
         return new double[]{minX, minY, maxX, maxY};
     }
 
+    private boolean satCollision(List<Ponto> polyA, List<Ponto> polyB) {
+        // Check axes from polyA
+        for (int i = 0; i < polyA.size(); i++) {
+            Ponto a = polyA.get(i);
+            Ponto b = polyA.get((i + 1) % polyA.size());
+            double axisX = a.getY() - b.getY();
+            double axisY = b.getX() - a.getX();
+            double len = Math.sqrt(axisX * axisX + axisY * axisY);
+            axisX /= len;
+            axisY /= len;
+
+            double[] projA = project(polyA, axisX, axisY);
+            double[] projB = project(polyB, axisX, axisY);
+
+            if (projA[1] < projB[0] || projB[1] < projA[0]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private double[] project(List<Ponto> vertices, double axisX, double axisY) {
+        double min = Double.MAX_VALUE;
+        double max = -Double.MAX_VALUE;
+        for (Ponto p : vertices) {
+            double proj = p.getX() * axisX + p.getY() * axisY;
+            min = Math.min(min, proj);
+            max = Math.max(max, proj);
+        }
+        return new double[]{min, max};
+    }
+
     public String toString(){return new Poligono(vert).toString();}
 
 
@@ -159,4 +213,35 @@ public class ColliderPoligono extends Collider{
         return result;
     }
 
+    /**
+     * Calcula distância entre ponto e segmento de reta
+     * @param p Ponto a calcular distância
+     * @param a Primeiro ponto do segmento
+     * @param b Segundo ponto do segmento
+     * @return Distância mínima entre o ponto e o segmento
+     */
+    public static double distancePointSegment(Ponto p, Ponto a, Ponto b) {
+        double dx = b.getX() - a.getX();
+        double dy = b.getY() - a.getY();
+        double segmentLengthSq = dx * dx + dy * dy;
+
+        if (segmentLengthSq == 0) // a and b are the same point
+            return Math.sqrt(
+                    Math.pow(p.getX() - a.getX(), 2) +
+                            Math.pow(p.getY() - a.getY(), 2)
+            );
+
+        double t = ((p.getX() - a.getX()) * dx + (p.getY() - a.getY()) * dy) / segmentLengthSq;
+        t = Math.max(0, Math.min(1, t)); // Clamp t to [0,1]
+
+        Ponto projection = new Ponto(
+                a.getX() + t * dx,
+                a.getY() + t * dy
+        );
+
+        return Math.sqrt(
+                Math.pow(p.getX() - projection.getX(), 2) +
+                        Math.pow(p.getY() - projection.getY(), 2)
+        );
+    }
 }

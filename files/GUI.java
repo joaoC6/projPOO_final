@@ -21,12 +21,12 @@ public class GUI extends JPanel {
     private final BufferedImage backGround;
     private CopyOnWriteArrayList<GameObject> enabledObjects;
 
-    public GUI() throws IOException {
+    public GUI() {
         enabledObjects = new CopyOnWriteArrayList<>();
         try{
-//            File f = new File(/*"src/resources/Images/background.png"*/ "C:\\Users\\masst\\Desktop\\java\\poo\\Projeto\\src\\resources\\Images\\backgorund.png");
-//            backGround = ImageIO.read(f);
-            backGround = ImageIO.read(getClass().getResource("/background.png"));
+            File f = new File("src/resources/Images/background.png");
+            backGround = ImageIO.read(f);
+//            backGround = ImageIO.read(getClass().getResource("/background.png"));
         }catch(IOException e) {throw new RuntimeException("Nao encontrou o ficheiro");}
 
         setBackground(Color.BLACK);

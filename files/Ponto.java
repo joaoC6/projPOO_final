@@ -1,5 +1,7 @@
 package files;
 
+import static java.lang.Math.*;
+
 /**
  * Representa um ponto no plano cartesiano.
  * @author POO2425p1g4
@@ -44,6 +46,28 @@ public class Ponto {
     }
 
     /**
+     * Cria e retorna um novo ponto, resultado da translação deste ponto em dx no eixo x e dy no eixo y.
+     * @param dx Deslocamento em x.
+     * @param dy Deslocamento em y.
+     * @return Um novo ponto, resultado da translação.
+     */
+    public Ponto translacaoPonto(double dx, double dy){
+        double novoX = x + dx;
+        double novoY = y + dy;
+        return new Ponto(novoX, novoY);
+
+    }
+
+    /**
+     * Calcula a distância entre dois pontos no espaço polar.
+     * @param that O ponto de referência para o cálculo da distância.
+     * @return A distância entre os dois pontos.
+     */
+    double dist(Ponto that) {
+        return sqrt((this.x * this.x) + (that.getX() * that.getX()) - (2 * this.x * that.getX() * cos(toRadians(this.y - that.getY()) ) ) );
+    }
+
+    /**
      * Verifica se dois pontos são iguais
      * @param that O ponto de referência para a verificacao
      * @return um booleano que diz se os dois pontos se intersetam
@@ -61,6 +85,49 @@ public class Ponto {
         return String.format("(%.2f,%.2f)", getX(), getY());
     }
 
+    // Vector operations
+    public Ponto sub(Ponto other) {
+        return new Ponto(this.x - other.getX(), this.y - other.getY());
+    }
 
+    public Ponto neg() {
+        return new Ponto(-this.x, -this.y);
+    }
+
+    public double dotProduct(Ponto other) {
+        return this.x * other.getX() + this.y * other.getY();
+    }
+
+    public double magnitude() {
+        return Math.sqrt(x * x + y * y);
+    }
+
+    public Ponto normalize() {
+        double mag = magnitude();
+        return new Ponto(x / mag, y / mag);
+    }
+
+    // Perpendicular directions (normal vectors)
+    public Ponto[] perpendicularDirections() {
+        return new Ponto[] {
+                new Ponto(-this.y, this.x),
+                new Ponto(this.y, -this.x)
+        };
+    }
+
+    // Add setters
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    // Optional: Set both coordinates at once
+    public void set(Ponto p) {
+        this.x = p.getX();
+        this.y = p.getY();
+    }
 }
 

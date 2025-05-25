@@ -26,3 +26,41 @@ public abstract class Collider extends Transform implements ICollider{
     public abstract String toString();
 }
 
+
+
+
+
+
+
+//versão antiga do collider
+//public class Collider implements ICollider {
+//    private Transform transform;
+//    private FiguraGeometrica shape;
+//
+//    /**
+//     * Constrói um colisor para uma figura geométrica
+//     * @param vertices Lista de vértices da figura
+//     * @param radius Raio (para círculos)
+//     * @param transform Transformação associada à figura
+//     */
+//    public Collider(List<Ponto> vertices, double radius, Transform transform) {
+//        this.transform = transform;
+//
+//        if (vertices.size() == 1) {
+//            this.shape = new Circulo(vertices.get(0), radius);
+//        } else if (vertices.size() >= 3) {
+//            this.shape = new Poligono(vertices);
+//        }
+//    }
+//
+//
+//    @Override
+//    public Ponto centroid() {
+//        return transform.position();
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return shape != null ? shape.toString() : "";
+//    }
+//}
